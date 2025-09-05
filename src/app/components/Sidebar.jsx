@@ -42,7 +42,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-1/4 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a2e] min-h-screen p-12 overflow-y-auto relative font-[Vazir]">
+    <aside className="md:w-1/4 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a2e] min-h-screen p-12 overflow-y-auto relative font-[Vazir]">
       {/* Profile Section */}
       <div className="text-center mb-16 pb-12 border-b border-[rgba(0,212,255,0.2)] relative">
         <div className="w-36 h-36 mx-auto mb-8 rounded-full bg-gradient-to-tr from-[#00d4ff] via-[#0099cc] to-[#00d4ff] flex items-center justify-center text-white text-5xl shadow-[0_0_60px_rgba(0,212,255,0.4),inset_0_0_20px_rgba(255,255,255,0.1)] border-[rgba(255,255,255,0.1)] relative animate-float overflow-hidden">

@@ -20,7 +20,7 @@ export default function MainContent() {
     "px-2 py-1 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white text-sm font-medium";
 
   return (
-    <div className="w-3/4 main-content p-8 font-[Vazir]">
+    <div className="md:w-3/4 main-content p-8 font-[Vazir]">
       {/* Header */}
       <div className="header-section p-6 bg-gradient-to-br from-blue-900/10 to-blue-900/30 rounded-2xl border border-blue-500/20 text-center relative overflow-hidden backdrop-blur-lg">
         <h1 className="main-title text-4xl font-extrabold bg-gradient-to-r from-white to-blue-400 text-transparent bg-clip-text mb-2 drop-shadow-lg">
