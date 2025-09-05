@@ -15,7 +15,7 @@ export default function MainContent() {
   const cardClass =
     "p-4 mb-4 bg-gradient-to-br from-blue-900/5 to-blue-900/2 border-l-4 border-blue-400 rounded-lg relative overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.5)] hover:border-2 hover:border-cyan-300";
   const projectCardClass =
-    "project-card p-4 bg-gradient-to-br from-blue-900/5 to-blue-900/2 border border-blue-400/20 rounded-lg relative overflow-hidden";
+    "project-card p-4 bg-gradient-to-br from-blue-900/5 to-blue-900/2 border border-blue-400/20 rounded-lg relative overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.5)] border-2 border-cyan-300";
   const techBadgeClass =
     "px-2 py-1 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white text-sm font-medium";
 
@@ -62,7 +62,7 @@ export default function MainContent() {
         <h3 className={titleClass}>
           <FaTrophy /> پروژه‌ها
         </h3>
-        <div className="projects-grid grid gap-4 sm:grid-cols-1 md:grid-cols-2 ">
+        <div className="projects-grid grid gap-4 sm:grid-cols-1 md:grid-cols-2  ">
           {[
             {
               title: "فروشگاه لواز خانگی ",
@@ -73,8 +73,8 @@ export default function MainContent() {
             },
             {
               title: "پروژه منو آنلاین کافه ",
-              description: "اپلیکیشن React Native برای مدیریت وظایف",
-              tech: ["React Native", "Firebase", "Redux", "prisma"],
+              description: "سایت مدیریت منو و سفارش ها برای کافه و رستوران ",
+              tech: ["HTML & CSS", "JS", "PHP"],
               iframeSrc: "https://orderify.ir/cafe/main.php",
             },
             {
@@ -111,7 +111,7 @@ export default function MainContent() {
       </div>
 
       {/* Experience */}
-      <div className={sectionClass}>
+      {/* <div className={sectionClass}>
         <h3 className={titleClass}>
           <FaBriefcase /> تجربیات کاری
         </h3>
@@ -169,7 +169,7 @@ export default function MainContent() {
             ))}
           </ul>
         </div>
-      </div>
+      </div> */}
 
       {/* Certificates */}
       <div className={sectionClass}>
