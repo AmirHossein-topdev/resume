@@ -104,7 +104,7 @@ export default function Sidebar() {
       {/* Languages */}
       <div className={sectionClass}>
         <h4 className="text-[#00d4ff] text-lg font-semibold mb-5 flex items-center gap-2">
-          <FaLanguage /> زبان‌ها
+          <FaLanguage /> زبان‌ها2
         </h4>
         {languages.map((lang, index) => (
           <div key={index} className={infoCardClass}>
