@@ -104,6 +104,7 @@ export default function MainContent() {
 
               <a
                 href={project.iframeSrc}
+                target="_blank"
                 className="text-white font-semibold mb-2"
               >
                 {project.title}
