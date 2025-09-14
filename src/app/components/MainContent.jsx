@@ -102,7 +102,12 @@ export default function MainContent() {
                 </div>
               )}
 
-              <h5 className="text-white font-semibold mb-2">{project.title}</h5>
+              <a
+                href={project.iframeSrc}
+                className="text-white font-semibold mb-2"
+              >
+                {project.title}
+              </a>
               <p className="text-gray-200 mb-2">{project.description}</p>
               <div className="project-tech flex flex-wrap gap-2">
                 {project.tech.map((t) => (
