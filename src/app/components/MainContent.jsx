@@ -83,6 +83,12 @@ export default function MainContent() {
               tech: ["Next.js", "Tailwind"],
               iframeSrc: "https://game-shop-react-topaz.vercel.app/",
             },
+            {
+              title: "فروشگاه لباس زمستانه",
+              description: "فروشگاه آنلاین با Next.js و Tailwind",
+              tech: ["Next.js", "Tailwind"],
+              iframeSrc: "https://clothes-rose.vercel.app/",
+            },
           ].map((project) => (
             <div key={project.title} className={projectCardClass}>
               {/* Iframe preview */}
