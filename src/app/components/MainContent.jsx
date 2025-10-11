@@ -65,11 +65,10 @@ export default function MainContent() {
         <div className="projects-grid grid gap-4 sm:grid-cols-1 md:grid-cols-2  ">
           {[
             {
-              title: "فروشگاه لواز خانگی ",
-              description:
-                "فروشگاه لوازم خانگی با پنل ادمین با Next.js و Prisma",
-              tech: ["Next.js", "Tailwind", "postgres"],
-              iframeSrc: "https://home-appliance-website.vercel.app/",
+              title: "فروشگاه لباس زمستانه",
+              description: "فروشگاه آنلاین با Next.js و Tailwind",
+              tech: ["Next.js", "Tailwind"],
+              iframeSrc: "https://clothes-rose.vercel.app/",
             },
             {
               title: "پروژه منو آنلاین کافه ",
@@ -84,10 +83,11 @@ export default function MainContent() {
               iframeSrc: "https://game-shop-react-topaz.vercel.app/",
             },
             {
-              title: "فروشگاه لباس زمستانه",
-              description: "فروشگاه آنلاین با Next.js و Tailwind",
-              tech: ["Next.js", "Tailwind"],
-              iframeSrc: "https://clothes-rose.vercel.app/",
+              title: "فروشگاه لواز خانگی ",
+              description:
+                "فروشگاه لوازم خانگی با پنل ادمین با Next.js و Prisma",
+              tech: ["Next.js", "Tailwind", "postgres"],
+              iframeSrc: "https://home-appliance-website.vercel.app/",
             },
           ].map((project) => (
             <div key={project.title} className={projectCardClass}>
