@@ -80,7 +80,7 @@ export default function MainContent() {
               title: "فروشگاه گیمینگ",
               description: "فروشگاه آنلاین با Next.js و Tailwind",
               tech: ["Next.js", "Tailwind"],
-              iframeSrc: "https://game-shop-seven-xi.vercel.app/",
+              iframeSrc: "https://game-shop-puce-three.vercel.app/",
             },
             {
               title: "فروشگاه لواز خانگی ",
