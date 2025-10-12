@@ -70,12 +70,7 @@ export default function MainContent() {
               tech: ["Next.js", "Tailwind"],
               iframeSrc: "https://clothes-rose.vercel.app/",
             },
-            {
-              title: "پروژه منو آنلاین کافه ",
-              description: "سایت مدیریت منو و سفارش ها برای کافه و رستوران ",
-              tech: ["HTML & CSS", "JS", "PHP"],
-              iframeSrc: "https://orderify.ir/cafe/main.php",
-            },
+
             {
               title: "فروشگاه گیمینگ",
               description: "فروشگاه آنلاین با Next.js و Tailwind",
@@ -88,6 +83,12 @@ export default function MainContent() {
                 "فروشگاه لوازم خانگی با پنل ادمین با Next.js و Prisma",
               tech: ["Next.js", "Tailwind", "postgres"],
               iframeSrc: "https://home-appliance-website.vercel.app/",
+            },
+            {
+              title: "پروژه منو آنلاین کافه ",
+              description: "سایت مدیریت منو و سفارش ها برای کافه و رستوران ",
+              tech: ["HTML & CSS", "JS", "PHP"],
+              iframeSrc: "https://orderify.ir/cafe/main.php",
             },
           ].map((project) => (
             <div key={project.title} className={projectCardClass}>
