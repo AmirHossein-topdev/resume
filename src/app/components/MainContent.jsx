@@ -88,7 +88,7 @@ export default function MainContent() {
               title: "پروژه کارشناسی دانشگاه ",
               description: "سامانه ثبت و پیگیری مستغلات ملکی ",
               tech: ["TAILWIND", "NEXT.JS", "MONGO DB"],
-              iframeSrc: "https://uni-project-t73x.vercel.app/",
+              iframeSrc: "https://uni-project-coral.vercel.app/",
             },
             
           ].map((project) => (
