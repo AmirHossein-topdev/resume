@@ -85,11 +85,12 @@ export default function MainContent() {
               iframeSrc: "https://home-appliance-website.vercel.app/",
             },
             {
-              title: "پروژه منو آنلاین کافه ",
-              description: "سایت مدیریت منو و سفارش ها برای کافه و رستوران ",
-              tech: ["HTML & CSS", "JS", "PHP"],
-              iframeSrc: "https://orderify.ir/cafe/main.php",
+              title: "پروژه کارشناسی دانشگاه ",
+              description: "سامانه ثبت و پیگیری مستغلات ملکی ",
+              tech: ["TAILWIND", "NEXT.JS", "MONGO DB"],
+              iframeSrc: "https://uni-project-t73x.vercel.app/",
             },
+            
           ].map((project) => (
             <div key={project.title} className={projectCardClass}>
               {/* Iframe preview */}
