@@ -1,13 +1,23 @@
+"use client";
+import React, { useState } from "react";
 import {
   FaUserTie,
   FaBriefcase,
   FaGraduationCap,
   FaTrophy,
   FaAws,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import { SiGooglecloud } from "react-icons/si";
 
 export default function MainContent() {
+  // مدیریت وضعیت مودال گالری
+  const [selectedGallery, setSelectedGallery] = useState(null);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+
+  // استایل‌های ثابت تو (بدون تغییر)
   const sectionClass =
     "section mt-8 p-6 bg-blue-900/5 border border-blue-500/20 rounded-2xl relative overflow-hidden";
   const titleClass =
@@ -19,8 +29,65 @@ export default function MainContent() {
   const techBadgeClass =
     "px-2 py-1 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white text-sm font-medium";
 
+  // لیست کامل پروژه‌ها (هم لینک‌دارها و هم عکسی‌ها)
+  const allProjects = [
+    {
+      title: "فروشگاه لباس زمستانه",
+      description: "فروشگاه آنلاین با Next.js و Tailwind",
+      tech: ["Next.js", "Tailwind", "Responsive"],
+      iframeSrc: "https://clothes-rose.vercel.app/",
+    },
+    {
+      title: "فروشگاه گیمینگ",
+      description: "فروشگاه آنلاین با Next.js و Tailwind",
+      tech: ["Next.js", "Tailwind", "Responsive"],
+      iframeSrc: "https://game-shop-puce-three.vercel.app/",
+    },
+    {
+      title: "فروشگاه لواز خانگی ",
+      description: "فروشگاه لوازم خانگی با پنل ادمین با Next.js و Prisma",
+      tech: ["Next.js", "Tailwind", "postgres", "Responsive"],
+      iframeSrc: "https://home-appliance-website.vercel.app/",
+    },
+    {
+      title: "سایت رزومه ",
+      description: "رزومه آنلاین با Next.js و Tailwind",
+      tech: ["Next.js", "Tailwind", "Responsive"],
+      iframeSrc: "https://resume-pi-kohl.vercel.app/",
+    },
+    // نمونه پروژه جدید که فقط عکس دارد (اینجا عکس‌هایت را اضافه کن)
+    {
+      title: "پروژه اختصاصی (نمونه گالری تصاویر)",
+      description: "طراحی رابط کاربری پیشرفته - نمایش به صورت گالری",
+      tech: ["React", "UI/UX", "Tailwind"],
+      images: Array.from({ length: 26 }, (_, i) => `/images/2/2-${i + 1}.png`),
+    },
+  ];
+
+  // توابع کنترل گالری
+  const openGallery = (imgs) => {
+    setSelectedGallery(imgs);
+    setCurrentImgIndex(0);
+  };
+
+  const closeGallery = () => setSelectedGallery(null);
+
+  const nextImg = (e) => {
+    e.stopPropagation();
+    setCurrentImgIndex((prev) =>
+      prev === selectedGallery.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const prevImg = (e) => {
+    e.stopPropagation();
+    setCurrentImgIndex((prev) =>
+      prev === 0 ? selectedGallery.length - 1 : prev - 1,
+    );
+  };
+
   return (
-    <div className="md:w-3/4 main-content p-8 font-[Vazir]">
+    <div className="md:w-3/4 main-content p-8 font-[Vazir] relative">
       {/* Header */}
       <div className="header-section p-6 bg-gradient-to-br from-blue-900/10 to-blue-900/30 rounded-2xl border border-blue-500/20 text-center relative overflow-hidden backdrop-blur-lg">
         <h1 className="main-title text-4xl font-extrabold bg-gradient-to-r from-white to-blue-400 text-transparent bg-clip-text mb-2 drop-shadow-lg">
@@ -57,42 +124,16 @@ export default function MainContent() {
           </p>
         </div>
       </div>
+
       {/* Projects */}
       <div className={sectionClass}>
         <h3 className={titleClass}>
           <FaTrophy /> پروژه‌ها
         </h3>
-        <div className="projects-grid grid gap-4 sm:grid-cols-1 md:grid-cols-2  ">
-          {[
-            {
-              title: "فروشگاه لباس زمستانه",
-              description: "فروشگاه آنلاین با Next.js و Tailwind",
-              tech: ["Next.js", "Tailwind"],
-              iframeSrc: "https://clothes-rose.vercel.app/",
-            },
-
-            {
-              title: "فروشگاه گیمینگ",
-              description: "فروشگاه آنلاین با Next.js و Tailwind",
-              tech: ["Next.js", "Tailwind"],
-              iframeSrc: "https://game-shop-puce-three.vercel.app/",
-            },
-            {
-              title: "فروشگاه لواز خانگی ",
-              description:
-                "فروشگاه لوازم خانگی با پنل ادمین با Next.js و Prisma",
-              tech: ["Next.js", "Tailwind", "postgres"],
-              iframeSrc: "https://home-appliance-website.vercel.app/",
-            },
-            {
-              title: "پروژه منو آنلاین کافه ",
-              description: "سایت مدیریت منو و سفارش ها برای کافه و رستوران ",
-              tech: ["HTML & CSS", "JS", "PHP"],
-              iframeSrc: "https://orderify.ir/cafe/main.php",
-            },
-          ].map((project) => (
-            <div key={project.title} className={projectCardClass}>
-              {/* Iframe preview */}
+        <div className="projects-grid grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+          {allProjects.map((project, index) => (
+            <div key={index} className={projectCardClass}>
+              {/* حالت اول: اگر لینک Iframe دارد (کد اصلی تو) */}
               {project.iframeSrc && (
                 <div className="w-full h-72 mb-3 rounded-md overflow-hidden border bg-white border-[rgba(255,255,255,0.1)] relative">
                   <iframe
@@ -103,14 +144,43 @@ export default function MainContent() {
                 </div>
               )}
 
-              <a
-                href={project.iframeSrc}
-                target="_blank"
-                className="text-sky-400 font-semibold mb-2 underline"
-              >
-                {project.title}
-              </a>
+              {/* حالت دوم: اگر فقط عکس دارد (افزودنی جدید) */}
+              {project.images && (
+                <div
+                  className="w-full h-72 mb-3 rounded-md overflow-hidden border border-blue-500/30 cursor-pointer group relative bg-blue-900/20"
+                  onClick={() => openGallery(project.images)}
+                >
+                  <img
+                    src={project.images[0]}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-blue-600/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                    <span className="bg-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-[0_0_15px_rgba(0,255,255,0.5)]">
+                      مشاهده گالری تصاویر
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* تیتر و توضیحات */}
+              {project.iframeSrc ? (
+                <a
+                  href={project.iframeSrc}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sky-400 font-semibold mb-2 underline block"
+                >
+                  {project.title}
+                </a>
+              ) : (
+                <h4 className="text-sky-400 font-semibold mb-2 block">
+                  {project.title}
+                </h4>
+              )}
+
               <p className="text-gray-200 mb-2">{project.description}</p>
+
               <div className="project-tech flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <span key={t} className={techBadgeClass}>
@@ -122,67 +192,6 @@ export default function MainContent() {
           ))}
         </div>
       </div>
-
-      {/* Experience */}
-      {/* <div className={sectionClass}>
-        <h3 className={titleClass}>
-          <FaBriefcase /> تجربیات کاری
-        </h3>
-
-        <div className={cardClass}>
-          <div className="experience-header mb-3">
-            <h4 className="text-white text-lg font-semibold">
-              توسعه‌دهنده وب ارشد
-            </h4>
-            <span className="company text-blue-400 text-sm ml-4">
-              شرکت فناوری پیشرو
-            </span>
-            <span className="period text-gray-400 text-xs mt-1 inline-block bg-blue-400/10 px-2 py-1 rounded-full border border-blue-400/30">
-              ۱۴۰۰ - تاکنون
-            </span>
-          </div>
-          <ul className="list-none pr-4 text-gray-200">
-            {[
-              "رهبری تیم ۵ نفره توسعه‌دهندگان",
-              "طراحی و پیاده‌سازی معماری میکروسرویس",
-              "بهینه‌سازی عملکرد اپلیکیشن‌ها",
-            ].map((item) => (
-              <li
-                key={item}
-                className="mb-1 relative before:content-['▸'] before:text-blue-400 before:absolute before:right-0"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className={cardClass}>
-          <div className="experience-header mb-3">
-            <h4 className="text-white text-lg font-semibold">توسعه‌دهنده وب</h4>
-            <span className="company text-blue-400 text-sm ml-4">
-              استارتاپ نوآور
-            </span>
-            <span className="period text-gray-400 text-xs mt-1 inline-block bg-blue-400/10 px-2 py-1 rounded-full border border-blue-400/30">
-              ۱۳۹۸ - ۱۴۰۰
-            </span>
-          </div>
-          <ul className="list-none pr-4 text-gray-200">
-            {[
-              "توسعه فرانت‌اند با React و TypeScript",
-              "پیاده‌سازی API با Node.js و Express",
-              "همکاری با تیم طراحی UX/UI",
-            ].map((item) => (
-              <li
-                key={item}
-                className="mb-1 relative before:content-['▸'] before:text-blue-400 before:absolute before:right-0"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div> */}
 
       {/* Certificates */}
       <div className={sectionClass}>
@@ -196,13 +205,81 @@ export default function MainContent() {
               alt="civilika"
               className="text-blue-400 w-24"
             />
-            <a href="https://civilica.com/doc/2243087/">
+            <a
+              href="https://civilica.com/doc/2243087/"
+              target="_blank"
+              rel="noreferrer"
+            >
               نقش اینترنت اشیا (IoT) در ارتقای مدیریت شهری، کاهش مصرف انرژی و
               ایجاد شهر هوشمند پایدار
             </a>
           </div>
         </div>
       </div>
+
+      {/* مودال گالری (دقیقاً با دیزاین نئونی و ست با پروژه تو) */}
+      {selectedGallery && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl transition-all"
+          onClick={closeGallery}
+        >
+          <button
+            className="absolute top-8 right-8 text-white text-4xl hover:text-cyan-400 transition-colors z-[1001]"
+            onClick={closeGallery}
+          >
+            <FaTimes />
+          </button>
+
+          <div
+            className="relative max-w-6xl w-full flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* قاب تصویر اصلی */}
+            <div className="relative w-full aspect-video rounded-3xl border-2 border-cyan-400/50 overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.2)] bg-black">
+              <img
+                src={selectedGallery[currentImgIndex]}
+                className="w-full h-full object-contain"
+                alt="Project detail"
+              />
+
+              {/* دکمه‌های ناوبری داخل مودال */}
+              <button
+                onClick={prevImg}
+                className="absolute left-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
+              >
+                <FaChevronLeft size={24} />
+              </button>
+              <button
+                onClick={nextImg}
+                className="absolute right-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
+              >
+                <FaChevronRight size={24} />
+              </button>
+            </div>
+
+            {/* لیست تصاویر کوچک (Thumbnails) */}
+            <div className="flex gap-3 mt-6 overflow-x-auto p-2 max-w-full">
+              {selectedGallery.map((img, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setCurrentImgIndex(idx)}
+                  className={`relative w-24 h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+                    idx === currentImgIndex
+                      ? "border-cyan-400 scale-110 shadow-[0_0_15px_rgba(0,255,255,0.6)]"
+                      : "border-blue-500/20 opacity-40 hover:opacity-100"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    className="w-full h-full object-cover"
+                    alt="thumb"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
