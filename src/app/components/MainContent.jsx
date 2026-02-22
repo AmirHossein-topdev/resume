@@ -57,10 +57,16 @@ export default function MainContent() {
     },
     // نمونه پروژه جدید که فقط عکس دارد (اینجا عکس‌هایت را اضافه کن)
     {
-      title: "پروژه اختصاصی (نمونه گالری تصاویر)",
-      description: "طراحی رابط کاربری پیشرفته - نمایش به صورت گالری",
-      tech: ["React", "UI/UX", "Tailwind"],
+      title: "سامانه ثبت و پیگیری مستغلات ملکی",
+      description: "سامانه ثبت و پیگری مستغلات ملکی حلال اهمر ",
+      tech: ["Next.js", "UI/UX", "Tailwind"],
       images: Array.from({ length: 26 }, (_, i) => `/images/2/2-${i + 1}.png`),
+    },
+    {
+      title: "سامانه مدیریت جامع باشگاه ورزشی ",
+      description: "سامانه جامع باشگاه ورزشی با هر قابلیتی که فکر کنید",
+      tech: ["Next.js", "UI/UX", "Tailwind"],
+      images: Array.from({ length: 25 }, (_, i) => `/images/1/1-${i + 1}.png`),
     },
   ];
 
@@ -120,7 +126,7 @@ export default function MainContent() {
             کارشناسی مهندسی نرم‌افزار
           </h4>
           <p className="text-blue-400 font-medium">
-            دانشگاه ملی مهارت سمنان | ۱۴۰۱-۱۴۰۴
+            دانشگاه ملی مهارت | ۱۴۰۱-۱۴۰۴
           </p>
         </div>
       </div>
