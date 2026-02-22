@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaUserTie,
   FaBriefcase,
@@ -16,6 +16,8 @@ export default function MainContent() {
   // مدیریت وضعیت مودال گالری
   const [selectedGallery, setSelectedGallery] = useState(null);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(null); // برای تشخیص شروع لمس
+  const [loading, setLoading] = useState(true); // برای وضعیت لودینگ عکس
 
   // استایل‌های ثابت تو (بدون تغییر)
   const sectionClass =
@@ -77,19 +79,35 @@ export default function MainContent() {
   };
 
   const closeGallery = () => setSelectedGallery(null);
+  // ریست کردن لودینگ وقتی عکس عوض می‌شود
+  useEffect(() => {
+    setLoading(true);
+  }, [currentImgIndex, selectedGallery]);
 
   const nextImg = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setCurrentImgIndex((prev) =>
       prev === selectedGallery.length - 1 ? 0 : prev + 1,
     );
   };
 
   const prevImg = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setCurrentImgIndex((prev) =>
       prev === 0 ? selectedGallery.length - 1 : prev - 1,
     );
+  };
+
+  // هندل کردن لمس برای موبایل (Swipe)
+  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const handleTouchEnd = (e) => {
+    if (!touchStart) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart - touchEnd;
+
+    if (distance > 70) nextImg(); // کشیدن به چپ (بعدی)
+    if (distance < -70) prevImg(); // کشیدن به راست (قبلی)
+    setTouchStart(null);
   };
 
   return (
@@ -141,7 +159,7 @@ export default function MainContent() {
             <div key={index} className={projectCardClass}>
               {/* حالت اول: اگر لینک Iframe دارد (کد اصلی تو) */}
               {project.iframeSrc && (
-                <div className="w-full h-72 mb-3 rounded-md overflow-hidden border bg-white border-[rgba(255,255,255,0.1)] relative">
+                <div className="w-full md:h-72 h-60 mb-3 rounded-md overflow-hidden border bg-white border-[rgba(255,255,255,0.1)] relative">
                   <iframe
                     src={project.iframeSrc}
                     title={project.title}
@@ -153,13 +171,13 @@ export default function MainContent() {
               {/* حالت دوم: اگر فقط عکس دارد (افزودنی جدید) */}
               {project.images && (
                 <div
-                  className="w-full h-72 mb-3 rounded-md overflow-hidden border border-blue-500/30 cursor-pointer group relative bg-blue-900/20"
+                  className="w-full md:h-72 h-36 mb-3 rounded-md overflow-hidden border border-blue-500/30 cursor-pointer group relative bg-blue-900/20"
                   onClick={() => openGallery(project.images)}
                 >
                   <img
                     src={project.images[0]}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-fill   transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-blue-600/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
                     <span className="bg-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-[0_0_15px_rgba(0,255,255,0.5)]">
@@ -226,12 +244,13 @@ export default function MainContent() {
       {/* مودال گالری (دقیقاً با دیزاین نئونی و ست با پروژه تو) */}
       {selectedGallery && (
         <div
-          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl transition-all"
-          onClick={closeGallery}
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-2 md:p-4 bg-black/95 backdrop-blur-xl transition-all"
+          onClick={() => setSelectedGallery(null)}
         >
+          {/* دکمه بستن - در موبایل کمی کوچکتر و در دسترس‌تر */}
           <button
-            className="absolute top-8 right-8 text-white text-4xl hover:text-cyan-400 transition-colors z-[1001]"
-            onClick={closeGallery}
+            className="absolute top-6 right-6 text-white/70 hover:text-cyan-400 text-3xl md:text-4xl transition-colors z-[1001]"
+            onClick={() => setSelectedGallery(null)}
           >
             <FaTimes />
           </button>
@@ -239,40 +258,55 @@ export default function MainContent() {
           <div
             className="relative max-w-6xl w-full flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             {/* قاب تصویر اصلی */}
-            <div className="relative w-full aspect-video rounded-3xl border-2 border-cyan-400/50 overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.2)] bg-black">
+            <div className="relative w-full aspect-[4/3] md:aspect-video rounded-2xl md:rounded-3xl border border-cyan-400/30 overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.15)] bg-black/50">
+              {/* Loading Spinner شیک و نئونی */}
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="w-12 h-12 border-4 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin shadow-[0_0_15px_rgba(0,255,255,0.5)]"></div>
+                </div>
+              )}
+
               <img
                 src={selectedGallery[currentImgIndex]}
-                className="w-full h-full object-contain"
+                className={`w-full h-full object-contain transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}
                 alt="Project detail"
+                onLoad={() => setLoading(false)}
               />
 
-              {/* دکمه‌های ناوبری داخل مودال */}
+              {/* دکمه‌های ناوبری - فقط در دسکتاپ نمایش داده می‌شوند (md:flex) */}
               <button
                 onClick={prevImg}
-                className="absolute left-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
+                className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
               >
                 <FaChevronLeft size={24} />
               </button>
               <button
                 onClick={nextImg}
-                className="absolute right-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
+                className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 bg-blue-600/30 p-4 rounded-full hover:bg-cyan-500 hover:text-white text-cyan-400 transition-all backdrop-blur-md border border-cyan-500/30"
               >
                 <FaChevronRight size={24} />
               </button>
+
+              {/* نشانگر صفحه در موبایل (مثلا 3/24) */}
+              <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white/70 text-sm backdrop-blur-md border border-white/10">
+                {currentImgIndex + 1} / {selectedGallery.length}
+              </div>
             </div>
 
-            {/* لیست تصاویر کوچک (Thumbnails) */}
-            <div className="flex gap-3 mt-6 overflow-x-auto p-2 max-w-full">
+            {/* لیست تصاویر کوچک (Thumbnails) - بهینه‌شده برای موبایل با اسکرول نرم */}
+            <div className="flex gap-2 md:gap-3 mt-6 overflow-x-auto p-2 max-w-full no-scrollbar">
               {selectedGallery.map((img, idx) => (
                 <div
                   key={idx}
                   onClick={() => setCurrentImgIndex(idx)}
-                  className={`relative w-24 h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+                  className={`relative flex-shrink-0 w-16 h-12 md:w-24 md:h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
                     idx === currentImgIndex
-                      ? "border-cyan-400 scale-110 shadow-[0_0_15px_rgba(0,255,255,0.6)]"
-                      : "border-blue-500/20 opacity-40 hover:opacity-100"
+                      ? "border-cyan-400 scale-105 shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                      : "border-blue-500/20 opacity-40"
                   }`}
                 >
                   <img
